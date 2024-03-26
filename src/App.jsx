@@ -1,17 +1,24 @@
 import { useState } from 'react';
+import text from './data';
+import { nanoid } from 'nanoid';
 
 const App = () => {
   const [count, setCount] = useState(1);
+  const [value, setValue] = useState([]);
 
   const handleChange = (e) => {
-    e.preventDefault();
-    setCount(e.target.value);
+    setCount(parseInt(e.target.value));
   };
-  console.log(count);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setValue(text.slice(0, count));
+  };
+
   return (
     <div className='section-center'>
       <h4 className='title'>tired of boring lorem ipsum?</h4>
-      <form className='lorem-form' action=''>
+      <form className='lorem-form' action='' onSubmit={handleSubmit}>
         <p>Paragraphs:</p>
         <label htmlFor='number' className='form-label'></label>
         <input
@@ -27,6 +34,10 @@ const App = () => {
           Submit
         </button>
       </form>
+      {value.map((paragraph) => {
+        const id = nanoid();
+        return <p key={id}>{paragraph}</p>;
+      })}
     </div>
   );
 };
