@@ -1,44 +1,48 @@
 import { useState } from 'react';
-import text from './data';
+import data from './data';
 import { nanoid } from 'nanoid';
 
 const App = () => {
   const [count, setCount] = useState(1);
-  const [value, setValue] = useState([]);
+  const [text, setText] = useState([]);
 
   const handleChange = (e) => {
-    setCount(parseInt(e.target.value));
+    setCount(parseInt(e.target.value)); //returns an integer
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setValue(text.slice(0, count));
+    let amount = parseInt(count);
+    setText(data.slice(0, amount));
   };
 
   return (
-    <div className='section-center'>
-      <h4 className='title'>tired of boring lorem ipsum?</h4>
+    <section className='section-center'>
+      <h4>tired of boring lorem ipsum?</h4>
       <form className='lorem-form' action='' onSubmit={handleSubmit}>
         <p>Paragraphs:</p>
-        <label htmlFor='number' className='form-label'></label>
+        <label htmlFor='amount' className='form-label'></label>
         <input
           type='number'
           className='form-input'
-          id='number'
+          name='amount'
+          id='amount'
           onChange={handleChange}
           value={count}
-          min={1}
-          max={8}
+          min='1'
+          step='1'
+          max='8'
         />
         <button type='submit' className='btn'>
-          Submit
+          Generate
         </button>
       </form>
-      {value.map((paragraph) => {
-        const id = nanoid();
-        return <p key={id}>{paragraph}</p>;
-      })}
-    </div>
+      <article className='lorem-text'>
+        {text.map((paragraph) => {
+          return <p key={nanoid()}>{paragraph}</p>;
+        })}
+      </article>
+    </section>
   );
 };
 export default App;
